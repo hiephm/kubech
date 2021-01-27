@@ -64,13 +64,12 @@ _kubechg () {
     kube_context=${1}
     kube_namespace=${2:-default}
     kube_config_file="${kube_context}-${kube_namespace}"
-    KUBECONFIG="${HOME}/.kube/config"
 
     kubectl config view             \
         --minify                    \
         --flatten                   \
         --context="${kube_context}" |
-        sed -r 's/((\s+)cluster: .+)/\1\n\2namespace: '"${kube_namespace}"'/g' > \
+        sed -r 's/((\s+)namespace: .+)/\2namespace: '"${kube_namespace}"'/g' > \
         "${kube_config_dir}/${kube_config_file}"
 
     chmod 600 "${kube_config_dir}/${kube_config_file}"
